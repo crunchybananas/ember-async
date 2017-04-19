@@ -1,0 +1,21 @@
+{{#if state.isRejected}}
+  <div class={{rejectedClass}}>
+    {{#if rejectedComponent}}
+      {{component rejectedComponent value state}}
+    {{else}}
+      {{if rejectedMessage rejectedMessage value.reason.message}}
+    {{/if}}
+  </div>
+{{else}}
+  {{#if state.isPending}}
+    <div class={{pendingClass}}>
+      {{#if pendingComponent}}
+        {{component pendingComponent value state}}
+      {{else}}
+        {{pendingMessage}}
+      {{/if}}
+    </div>
+  {{else}}
+    {{yield fulfilledValue state}}
+  {{/if}}
+{{/if}}
