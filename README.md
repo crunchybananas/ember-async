@@ -167,6 +167,73 @@ When this component yields to its block expression, it does so without extra
 DOM elements, so no styling can be applied.
 
 
+### Async Computed Properties
+
+#### asyncComputed
+
+`asyncComputed` allows properties that need to be calculated asynchronously to
+update templates when they resolve. Using `asyncComputed` also enables to you
+await on computed properties to get their resolved value.
+
+Use the same syntax with `asyncComputed` as you would with `computed`, but pass
+in an async function:
+
+```
+user: asyncComputed('userId', async function() {
+  let data = await this.get('store').findRecord('user', this.get('userId'));
+
+   // transform data
+
+  return data;
+})
+```
+
+Or use the get/set syntax with `asyncComputed`:
+
+```
+user: asyncComputed('userId', {
+  async get() {
+    let data = await this.get('store').findRecord('user', this.get('userId'));
+
+     // transform data
+
+    return data;
+  },
+  async set(key, value) {
+    let updatedValue = await saveValue(value);
+
+    return updatedValue;
+  }
+})
+```
+
+#### asyncGet
+
+If you need to await on nested async computed properties, or regular computed
+properties that are returning promises (e.g. by returning the result of
+`findRecord`), then use `asyncGet` to await each property in the path to ensure
+you get the final resolved value.
+
+For instance:
+
+```
+let accounts = await asyncGet(this, 'user.accounts');
+```
+
+is equivalent to:
+
+```
+let user = await get(this, 'user');
+let accounts = user ? await get(user, 'accounts') : undefined;
+```
+
+And solves the problem of `user` not being awaited on when this is done:
+
+```
+let accounts = await get(this, 'user.accounts');
+```
+
+
 Related Libraries
 -----------------
 

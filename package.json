@@ -1,6 +1,6 @@
 {
   "name": "ember-async",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Tools for working with async data in Ember",
   "keywords": [
     "ember-addon",
