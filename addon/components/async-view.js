@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/async-view';
 
-const { Component, computed, get, getOwner, set } = Ember;
+const { Component, computed, get, getOwner, getProperties, set } = Ember;
 
 /**
  * A higher-order component providing support for deferred value resolution
@@ -87,14 +87,12 @@ let AsyncView = Component.extend({
    * @type {any}
    * @public
    */
-  fulfilledValue: computed('value', 'value.isPending', 'value.content',
-                           function()
-  {
+  fulfilledValue: computed('value', 'value.isPending', 'value.content', function() {
     let value = get(this, 'value');
-
-    return value && typeof value.isPending !== 'undefined' ?
-            (typeof value.content !== 'undefined' ? value.content : undefined) :
-            value;
+    debugger;
+    return value && typeof value.get('isPending') !== 'undefined' ?
+      (typeof value.content !== 'undefined' ? value.content : undefined) :
+      value;
   }),
 
   /**
@@ -111,16 +109,11 @@ let AsyncView = Component.extend({
    * @public
    */
   state: computed('value', 'value.isPending', 'value.isSettled',
-                  'value.isRejected', 'value.isFulfilled', function()
-  {
+                  'value.isRejected', 'value.isFulfilled', function() {
     let value = get(this, 'value');
-
-    return value && typeof value.isPending !== 'undefined' ? {
-      isPending: value.isPending,
-      isSettled: value.isSettled,
-      isFulfilled: value.isFulfilled,
-      isRejected: value.isRejected
-    } : {
+    debugger;
+    return value && typeof value.get('isPending') !== 'undefined' ? getProperties(value, 'isPending', 'isSettled', 'isFulfilled', 'isRejected')
+    : {
       isPending: false,
       isSettled: true,
       isFulfilled: true,
