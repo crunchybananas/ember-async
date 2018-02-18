@@ -89,7 +89,6 @@ let AsyncView = Component.extend({
    */
   fulfilledValue: computed('value', 'value.isPending', 'value.content', function() {
     let value = get(this, 'value');
-    debugger;
     return value && typeof value.get('isPending') !== 'undefined' ?
       (typeof value.content !== 'undefined' ? value.content : undefined) :
       value;
@@ -111,7 +110,6 @@ let AsyncView = Component.extend({
   state: computed('value', 'value.isPending', 'value.isSettled',
                   'value.isRejected', 'value.isFulfilled', function() {
     let value = get(this, 'value');
-    debugger;
     return value && typeof value.get('isPending') !== 'undefined' ? getProperties(value, 'isPending', 'isSettled', 'isFulfilled', 'isRejected')
     : {
       isPending: false,
