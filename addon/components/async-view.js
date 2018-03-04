@@ -88,10 +88,10 @@ let AsyncView = Component.extend({
    * @public
    */
   fulfilledValue: computed('value', 'value.isPending', 'value.content', function() {
-    let value = get(this, 'value');
+    const value = get(this, 'value');
+    const content = value.get('content');
     return value && typeof value.get('isPending') !== 'undefined' ?
-      (typeof value.content !== 'undefined' ? value.content : undefined) :
-      value;
+      (typeof content !== 'undefined' ? content : undefined) : value;
   }),
 
   /**
